@@ -6,13 +6,9 @@ import { dbConnection } from './database/dbConnection.js'
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
 import cloudinary from 'cloudinary'
-import cors from 'cors'
 dotenv.config()
 
 
-import { dirname } from 'path'
-import { fileURLToPath } from 'url';
-import path from 'path';
 
 // Routes
 import AuthRouter from './routes/auth.js'
@@ -35,6 +31,7 @@ import { authenticateUser } from './middleware/authMiddleware.js'
 
 
 
+
 const app = express()
 dbConnection()
 cloudinary.config({
@@ -42,7 +39,10 @@ cloudinary.config({
     api_key: process.env.CLOUD_API_KEY,
     api_secret: process.env.CLOUD_API_SECRET,
 });
-// app.use(cors())
+
+import { dirname } from 'path'
+import { fileURLToPath } from 'url';
+import path from 'path';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.resolve(__dirname, './public')));
 
