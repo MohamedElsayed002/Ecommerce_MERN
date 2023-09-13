@@ -8,7 +8,7 @@ import {Router} from 'express'
 const OrderRouter = Router()
 
 OrderRouter.route('/').get(allowedTo('admin','user'),GetSpecificOrder)
-OrderRouter.route('/all-orders').get(allowedTo('admin'), getAllOrders)
+OrderRouter.route('/all-orders').get( getAllOrders)
 OrderRouter
     .route('/:id').post(allowedTo('admin','user'),createCashOrder)
 

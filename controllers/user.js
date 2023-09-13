@@ -24,24 +24,19 @@ const getCurrentUser = async (req, res) => {
 //     res.json({message : "password changed "})
 // }
 
-// const updateUser = async (req,res) => {
-//     const newUser = {...req.body}
-//     if(req.file) {
-//         const file = formatImage(req.file)
-//         // const response = await cloudinary.v2.uploader.upload(req.file.path)
-//         const response = await cloudinary.v2.uploader.upload(file)
-//         // await fs.unlink(req.file.path)
-//         newUser.avatar = response.secure_url
-//         newUser.avatarPublicId = response.public_id
-//     }
-//     const updateUser = await AuthModel.findByIdAndUpdate(req.user.userId , newUser , {new : true})
 
+const getAllUsers = async  (req,res) => {
+    let result = await AuthModel.find({})
+    res.status(200).json({message : "success" , data : result})
+}
 
-//     if(req.file && updateUser.avatarPublicId) {
-//         await cloudinary.v2.uploader.destroy(updateUser.avatarPublicId)
-//     }
-//     res.status(StatusCodes.OK).json({message : 'update user' , updateUser})
-// }
+const getOneUser = async (req,res) => {
+    const {id} = req.params
+    let result = await AuthModel.find({_id : id})
+    res.status(200).json({message : "success" , data : result})
+
+}
+
 
 const updateUser = async (req, res) => {
     const newUser = { ...req.body };
@@ -54,6 +49,7 @@ const updateUser = async (req, res) => {
         newUser.avatar = response.secure_url;
         newUser.avatarPublicId = response.public_id;
     }
+    // const updatedUser = await AuthModel.findByIdAndUpdate(req.user.userId, newUser);
     const updatedUser = await AuthModel.findByIdAndUpdate(req.user.userId, newUser);
 
     if (req.file && updatedUser.avatarPublicId) {
@@ -63,7 +59,20 @@ const updateUser = async (req, res) => {
     res.status(StatusCodes.OK).json({ msg: 'update user' });
 };
 
+
+const DeleteUser = async (req,res) => {
+    const {id} = req.params
+    let result = await AuthModel.findByIdAndDelete({_id : id})
+    if(!result) {
+        throw new Error('user not found')
+    }
+    res.status(201).json({message : 'user deleted successfully'})
+}
+
 export {
     getCurrentUser,
-    updateUser
+    updateUser,
+    getAllUsers,
+    getOneUser,
+    DeleteUser
 }

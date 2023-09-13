@@ -17,7 +17,7 @@ const CreateProduct = async (req,res) => {
     }
     let result = await ProductModel(req.body)
     await result.save()
-    res.json({message : "success" , result })
+    res.json({message : "success" , result  })
 }
 
 const getAllProducts = async (req, res) => {
@@ -76,6 +76,11 @@ const getProduct = async (req,res,next) => {
     res.json({message : "success" , result })
 }
 
+const getAllProductsAdmin = async (req,res) => {
+    let result = await ProductModel.find({})
+    res.status(200).json({message : "success" , result})
+}
+
 
 const updateProduct = async (req,res) => {
     const {id} = req.params
@@ -87,7 +92,7 @@ const updateProduct = async (req,res) => {
     if(!result) {
         throw new BadRequestError('product not found or something went wrong')
     }
-    res.status(201).json({message : "product updated successfully" , result})
+    res.status(201).json({message : "product updated successfully" , result })
 }
 
 const deleteProduct = async (req,res) => {
@@ -105,5 +110,6 @@ export {
     getAllProducts,
     getProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getAllProductsAdmin
 }

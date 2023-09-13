@@ -43,8 +43,9 @@ const GetSpecificOrder = async (req,res) => {
 }
 
 const getAllOrders = async (req,res) => {
-    let order = await OrderModel.find({})
-    res.status(200).json({message : "success" , order})
+    let order = await OrderModel.find({}).populate('user')
+    console.log(order)
+    res.status(200).json({message : "successss" , order})
 }
 
 

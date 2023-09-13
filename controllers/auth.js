@@ -8,6 +8,9 @@ const Register = async (req,res) => {
     if(checkEmail) {
         throw new BadRequestError('email already used')
     }
+
+    const isFirstAccount = (await AuthModel.countDocuments()) === 0
+    req.body.role = isFirstAccount ? 'admin' : 'user'
     const user = await AuthModel(req.body)
     await user.save()
 
@@ -49,6 +52,7 @@ const Logout = (req,res) => {
 
 
 const allowedTo = (...roles) => {
+    console.log(roles)
     return (req,res,next) => {
         if(!roles.includes(req.user.role)){
             throw new BadRequestError('you are not authorized')
@@ -57,9 +61,32 @@ const allowedTo = (...roles) => {
     }
 }
 
+const updateUser = async (req, res) => {
+    const {id} = req.params
+    const newUser = { ...req.body };
+    delete newUser.password;
+    delete newUser.role;
+
+    if (req.file) {
+        const file = formatImage(req.file);
+        const response = await cloudinary.v2.uploader.upload(file);
+        newUser.avatar = response.secure_url;
+        newUser.avatarPublicId = response.public_id;
+    }
+    // const updatedUser = await AuthModel.findByIdAndUpdate(req.user.userId, newUser);
+    const updatedUser = await AuthModel.findByIdAndUpdate({_id : id}, newUser);
+
+    if (req.file && updatedUser.avatarPublicId) {
+        await cloudinary.v2.uploader.destroy(updatedUser.avatarPublicId);
+    }
+
+    res.status(StatusCodes.OK).json({ msg: 'update user' });
+};
+
 export {
     Register,
     Login,
     Logout,
-    allowedTo
+    allowedTo,
+    updateUser
 }

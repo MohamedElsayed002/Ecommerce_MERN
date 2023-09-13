@@ -2,7 +2,7 @@
 
 
 import {Router} from 'express'
-import { getCurrentUser , updateUser  } from '../controllers/user.js'
+import { getCurrentUser , updateUser , getAllUsers , getOneUser , DeleteUser  } from '../controllers/user.js'
 import upload from '../middleware/multer.js'
 
 const UserRouter = Router()
@@ -10,6 +10,7 @@ const UserRouter = Router()
 UserRouter.get('/getCurrent',getCurrentUser)
 UserRouter.patch('/update-user' , upload.single('avatar') , updateUser)
 // UserRouter.patch('/change-password' , ChangePassword)
-
-
+UserRouter.get('/' , getAllUsers)
+UserRouter.get('/:id', getOneUser)
+UserRouter.delete('/:id' , DeleteUser)
 export default UserRouter

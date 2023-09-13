@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 const OrderSchema = new mongoose.Schema({
     user : {
         type : mongoose.Types.ObjectId,
-        ref : 'user',
+        ref : 'auth',
         required : [true , 'user id required']
     },
     cartItems : [{
