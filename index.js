@@ -23,6 +23,7 @@ import addressesRouter from './routes/address.js'
 import CouponRouter from './routes/coupon.js'
 import CartRouter from './routes/cart.js'
 import OrderRouter from './routes/order.js'
+import ContactUsRouter from './routes/contact-us.js'
 
 // Errors Middleware
 import notFound from './middleware/not-found.js'
@@ -64,6 +65,7 @@ app.use('/api/v1/address' , authenticateUser , addressesRouter)
 app.use('/api/v1/coupon' , authenticateUser , CouponRouter)
 app.use('/api/v1/cart' , authenticateUser , CartRouter)
 app.use('/api/v1/orders' , authenticateUser , OrderRouter)
+app.use('/api/v1/contact-us' , authenticateUser , ContactUsRouter)
 app.get('/', (req, res) => {
     res.send('<h1>Mohamed</h1>')
 })
