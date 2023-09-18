@@ -19,7 +19,7 @@ const ProductRouter = Router({mergeParams : true})
 ProductRouter
     .route('/admin-all-products').get(getAllProductsAdmin)
 ProductRouter
-    .route('/').post(upload.single('image') , testUser , CreateProduct).get(getAllProducts)
+    .route('/').post(authenticateUser,testUser,upload.single('image')  , CreateProduct).get(getAllProducts)
 
 ProductRouter
     .route('/:id').get(getProduct).patch(authenticateUser,testUser,updateProduct).delete(authenticateUser,testUser,deleteProduct)

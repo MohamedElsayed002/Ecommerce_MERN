@@ -2,8 +2,11 @@
 
 
 export const testUser = (req, res, next) => {
-    if (req.user.testUser) {
+    console.log(req.user.testUser,'dddd')
+    if (!req.user.testUser) {
+        next()
+    }else {
         throw new Error('test user. read only!')
+
     }
-    next()
 }
